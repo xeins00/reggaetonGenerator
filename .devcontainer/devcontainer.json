@@ -29,7 +29,9 @@
 			// Add the IDs of extensions you want installed when the container is created.
 			"extensions": [
 				"ms-python.python",
-				"adamvoss.vscode-languagetool-es"
+				"adamvoss.vscode-languagetool-es",
+				"vscjava.vscode-java-debug",
+				"vscjava.vscode-java-test"
 			]
 		}
 	},
