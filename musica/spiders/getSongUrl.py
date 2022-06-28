@@ -1,3 +1,5 @@
+import pickle
+
 import scrapy
 import pickle
 

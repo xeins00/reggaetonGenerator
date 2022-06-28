@@ -1,5 +1,6 @@
 import scrapy
 
+
 class LyricSpider(scrapy.Spider):
     name = 'GetArtistUrl'
 
@@ -13,3 +14,5 @@ class LyricSpider(scrapy.Spider):
             yield{
                 'artist': artist.xpath(".//li//a/@href").extract(),
             }
+            """_summary_
+            """

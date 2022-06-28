@@ -1,0 +1,692 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "pickle",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pickle",
+        "description": "pickle",
+        "detail": "pickle",
+        "documentation": {}
+    },
+    {
+        "label": "scrapy",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "scrapy",
+        "description": "scrapy",
+        "detail": "scrapy",
+        "documentation": {}
+    },
+    {
+        "label": "signals",
+        "importPath": "scrapy",
+        "description": "scrapy",
+        "isExtraImport": true,
+        "detail": "scrapy",
+        "documentation": {}
+    },
+    {
+        "label": "signals",
+        "importPath": "scrapy",
+        "description": "scrapy",
+        "isExtraImport": true,
+        "detail": "scrapy",
+        "documentation": {}
+    },
+    {
+        "label": "LittleEndianStructure",
+        "importPath": "ctypes",
+        "description": "ctypes",
+        "isExtraImport": true,
+        "detail": "ctypes",
+        "documentation": {}
+    },
+    {
+        "label": "load_data",
+        "kind": 2,
+        "importPath": "Model.helper",
+        "description": "Model.helper",
+        "peekOfCode": "def load_data(path):\n    \"\"\"\n    Load Dataset from File\n    \"\"\"\n    input_file = os.path.join(path)\n    with open(input_file, \"r\") as f:\n        data = f.read()\n    return data\ndef preprocess_and_save_data(dataset_path, token_lookup, create_lookup_tables):\n    \"\"\"",
+        "detail": "Model.helper",
+        "documentation": {}
+    },
+    {
+        "label": "preprocess_and_save_data",
+        "kind": 2,
+        "importPath": "Model.helper",
+        "description": "Model.helper",
+        "peekOfCode": "def preprocess_and_save_data(dataset_path, token_lookup, create_lookup_tables):\n    \"\"\"\n    Preprocess Text Data\n    \"\"\"\n    text = load_data(dataset_path)\n    # Ignore notice, since we don't use it for analysing the data\n    text = text[81:]\n    token_dict = token_lookup()\n    for key, token in token_dict.items():\n        text = text.replace(key, ' {} '.format(token))",
+        "detail": "Model.helper",
+        "documentation": {}
+    },
+    {
+        "label": "load_preprocess",
+        "kind": 2,
+        "importPath": "Model.helper",
+        "description": "Model.helper",
+        "peekOfCode": "def load_preprocess():\n    \"\"\"\n    Load the Preprocessed Training data and return them in batches of <batch_size> or less\n    \"\"\"\n    return pickle.load(open('preprocess.p', mode='rb'))\ndef save_params(params):\n    \"\"\"\n    Save parameters to file\n    \"\"\"\n    pickle.dump(params, open('params.p', 'wb'))",
+        "detail": "Model.helper",
+        "documentation": {}
+    },
+    {
+        "label": "save_params",
+        "kind": 2,
+        "importPath": "Model.helper",
+        "description": "Model.helper",
+        "peekOfCode": "def save_params(params):\n    \"\"\"\n    Save parameters to file\n    \"\"\"\n    pickle.dump(params, open('params.p', 'wb'))\ndef load_params():\n    \"\"\"\n    Load parameters from file\n    \"\"\"\n    return pickle.load(open('params.p', mode='rb'))",
+        "detail": "Model.helper",
+        "documentation": {}
+    },
+    {
+        "label": "load_params",
+        "kind": 2,
+        "importPath": "Model.helper",
+        "description": "Model.helper",
+        "peekOfCode": "def load_params():\n    \"\"\"\n    Load parameters from file\n    \"\"\"\n    return pickle.load(open('params.p', mode='rb'))",
+        "detail": "Model.helper",
+        "documentation": {}
+    },
+    {
+        "label": "LyricSpider",
+        "kind": 6,
+        "importPath": "musica.musica.spiders.getArtistUrl",
+        "description": "musica.musica.spiders.getArtistUrl",
+        "peekOfCode": "class LyricSpider(scrapy.Spider):\n    name = 'GetArtistUrl'\n    start_urls = [\n                    'https://www.letras.com/estilos/reggaeton/artistas.html',\n                ]\n    def parse(self, response):\n        for artist in response.xpath(\"//ul[@class='cnt-list-thumb-l cnt-list--col3 ']\"):\n            yield{\n                'artist': artist.xpath(\".//li//a/@href\").extract(),\n            }",
+        "detail": "musica.musica.spiders.getArtistUrl",
+        "documentation": {}
+    },
+    {
+        "label": "LyricSpider",
+        "kind": 6,
+        "importPath": "musica.musica.spiders.getSongLyrics",
+        "description": "musica.musica.spiders.getSongLyrics",
+        "peekOfCode": "class LyricSpider(scrapy.Spider):\n    name = 'GetSongLyrics'\n    start_urls = lista_canciones\n    def parse(self, response):\n        for letra in response.css(\"div.cnt-letra\"):\n            yield{\n                'lyrics': letra.css(\"p::text\").extract(),\n            }",
+        "detail": "musica.musica.spiders.getSongLyrics",
+        "documentation": {}
+    },
+    {
+        "label": "LyricSpider",
+        "kind": 6,
+        "importPath": "musica.musica.spiders.getSongUrl",
+        "description": "musica.musica.spiders.getSongUrl",
+        "peekOfCode": "class LyricSpider(scrapy.Spider):\n    name = 'GetSongUrl'\n    start_urls = lista_artistas\n    def parse(self, response):\n        for song in response.xpath(\"//ul[@class='cnt-list']\"):\n            yield{\n                'urls': song.xpath(\".//li//a//@href\").extract(),\n            }",
+        "detail": "musica.musica.spiders.getSongUrl",
+        "documentation": {}
+    },
+    {
+        "label": "MusicaItem",
+        "kind": 6,
+        "importPath": "musica.musica.items",
+        "description": "musica.musica.items",
+        "peekOfCode": "class MusicaItem(scrapy.Item):\n    # define the fields for your item here like:\n    # name = scrapy.Field()\n    pass",
+        "detail": "musica.musica.items",
+        "documentation": {}
+    },
+    {
+        "label": "MusicaSpiderMiddleware",
+        "kind": 6,
+        "importPath": "musica.musica.middlewares",
+        "description": "musica.musica.middlewares",
+        "peekOfCode": "class MusicaSpiderMiddleware(object):\n    # Not all methods need to be defined. If a method is not defined,\n    # scrapy acts as if the spider middleware does not modify the\n    # passed objects.\n    @classmethod\n    def from_crawler(cls, crawler):\n        # This method is used by Scrapy to create your spiders.\n        s = cls()\n        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)\n        return s",
+        "detail": "musica.musica.middlewares",
+        "documentation": {}
+    },
+    {
+        "label": "MusicaPipeline",
+        "kind": 6,
+        "importPath": "musica.musica.pipelines",
+        "description": "musica.musica.pipelines",
+        "peekOfCode": "class MusicaPipeline(object):\n    def process_item(self, item, spider):\n        return item",
+        "detail": "musica.musica.pipelines",
+        "documentation": {}
+    },
+    {
+        "label": "BOT_NAME",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "BOT_NAME = 'musica'\nSPIDER_MODULES = ['musica.spiders']\nNEWSPIDER_MODULE = 'musica.spiders'\n# Crawl responsibly by identifying yourself (and your website) on the user-agent\n#USER_AGENT = 'musica (+http://www.yourdomain.com)'\n# Obey robots.txt rules\nROBOTSTXT_OBEY = True\n# Configure maximum concurrent requests performed by Scrapy (default: 16)\n#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SPIDER_MODULES",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "SPIDER_MODULES = ['musica.spiders']\nNEWSPIDER_MODULE = 'musica.spiders'\n# Crawl responsibly by identifying yourself (and your website) on the user-agent\n#USER_AGENT = 'musica (+http://www.yourdomain.com)'\n# Obey robots.txt rules\nROBOTSTXT_OBEY = True\n# Configure maximum concurrent requests performed by Scrapy (default: 16)\n#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)\n# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "NEWSPIDER_MODULE",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "NEWSPIDER_MODULE = 'musica.spiders'\n# Crawl responsibly by identifying yourself (and your website) on the user-agent\n#USER_AGENT = 'musica (+http://www.yourdomain.com)'\n# Obey robots.txt rules\nROBOTSTXT_OBEY = True\n# Configure maximum concurrent requests performed by Scrapy (default: 16)\n#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)\n# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay\n# See also autothrottle settings and docs",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#USER_AGENT",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#USER_AGENT = 'musica (+http://www.yourdomain.com)'\n# Obey robots.txt rules\nROBOTSTXT_OBEY = True\n# Configure maximum concurrent requests performed by Scrapy (default: 16)\n#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)\n# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay\n# See also autothrottle settings and docs\n#DOWNLOAD_DELAY = 3\n# The download delay setting will honor only one of:",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROBOTSTXT_OBEY",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "ROBOTSTXT_OBEY = True\n# Configure maximum concurrent requests performed by Scrapy (default: 16)\n#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)\n# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay\n# See also autothrottle settings and docs\n#DOWNLOAD_DELAY = 3\n# The download delay setting will honor only one of:\n#CONCURRENT_REQUESTS_PER_DOMAIN = 16\n#CONCURRENT_REQUESTS_PER_IP = 16",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#CONCURRENT_REQUESTS",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)\n# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay\n# See also autothrottle settings and docs\n#DOWNLOAD_DELAY = 3\n# The download delay setting will honor only one of:\n#CONCURRENT_REQUESTS_PER_DOMAIN = 16\n#CONCURRENT_REQUESTS_PER_IP = 16\n# Disable cookies (enabled by default)\n#COOKIES_ENABLED = False",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#DOWNLOAD_DELAY",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#DOWNLOAD_DELAY = 3\n# The download delay setting will honor only one of:\n#CONCURRENT_REQUESTS_PER_DOMAIN = 16\n#CONCURRENT_REQUESTS_PER_IP = 16\n# Disable cookies (enabled by default)\n#COOKIES_ENABLED = False\n# Disable Telnet Console (enabled by default)\n#TELNETCONSOLE_ENABLED = False\n# Override the default request headers:\n#DEFAULT_REQUEST_HEADERS = {",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#CONCURRENT_REQUESTS_PER_DOMAIN",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#CONCURRENT_REQUESTS_PER_DOMAIN = 16\n#CONCURRENT_REQUESTS_PER_IP = 16\n# Disable cookies (enabled by default)\n#COOKIES_ENABLED = False\n# Disable Telnet Console (enabled by default)\n#TELNETCONSOLE_ENABLED = False\n# Override the default request headers:\n#DEFAULT_REQUEST_HEADERS = {\n#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',\n#   'Accept-Language': 'en',",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#CONCURRENT_REQUESTS_PER_IP",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#CONCURRENT_REQUESTS_PER_IP = 16\n# Disable cookies (enabled by default)\n#COOKIES_ENABLED = False\n# Disable Telnet Console (enabled by default)\n#TELNETCONSOLE_ENABLED = False\n# Override the default request headers:\n#DEFAULT_REQUEST_HEADERS = {\n#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',\n#   'Accept-Language': 'en',\n#}",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#COOKIES_ENABLED",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#COOKIES_ENABLED = False\n# Disable Telnet Console (enabled by default)\n#TELNETCONSOLE_ENABLED = False\n# Override the default request headers:\n#DEFAULT_REQUEST_HEADERS = {\n#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',\n#   'Accept-Language': 'en',\n#}\n# Enable or disable spider middlewares\n# See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#TELNETCONSOLE_ENABLED",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#TELNETCONSOLE_ENABLED = False\n# Override the default request headers:\n#DEFAULT_REQUEST_HEADERS = {\n#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',\n#   'Accept-Language': 'en',\n#}\n# Enable or disable spider middlewares\n# See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html\n#SPIDER_MIDDLEWARES = {\n#    'musica.middlewares.MusicaSpiderMiddleware': 543,",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#DEFAULT_REQUEST_HEADERS",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#DEFAULT_REQUEST_HEADERS = {\n#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',\n#   'Accept-Language': 'en',\n#}\n# Enable or disable spider middlewares\n# See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html\n#SPIDER_MIDDLEWARES = {\n#    'musica.middlewares.MusicaSpiderMiddleware': 543,\n#}\n# Enable or disable downloader middlewares",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#SPIDER_MIDDLEWARES",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#SPIDER_MIDDLEWARES = {\n#    'musica.middlewares.MusicaSpiderMiddleware': 543,\n#}\n# Enable or disable downloader middlewares\n# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html\n#DOWNLOADER_MIDDLEWARES = {\n#    'musica.middlewares.MyCustomDownloaderMiddleware': 543,\n#}\n# Enable or disable extensions\n# See http://scrapy.readthedocs.org/en/latest/topics/extensions.html",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#DOWNLOADER_MIDDLEWARES",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#DOWNLOADER_MIDDLEWARES = {\n#    'musica.middlewares.MyCustomDownloaderMiddleware': 543,\n#}\n# Enable or disable extensions\n# See http://scrapy.readthedocs.org/en/latest/topics/extensions.html\n#EXTENSIONS = {\n#    'scrapy.extensions.telnet.TelnetConsole': None,\n#}\n# Configure item pipelines\n# See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#EXTENSIONS",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#EXTENSIONS = {\n#    'scrapy.extensions.telnet.TelnetConsole': None,\n#}\n# Configure item pipelines\n# See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html\n#ITEM_PIPELINES = {\n#    'musica.pipelines.MusicaPipeline': 300,\n#}\n# Enable and configure the AutoThrottle extension (disabled by default)\n# See http://doc.scrapy.org/en/latest/topics/autothrottle.html",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#ITEM_PIPELINES",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#ITEM_PIPELINES = {\n#    'musica.pipelines.MusicaPipeline': 300,\n#}\n# Enable and configure the AutoThrottle extension (disabled by default)\n# See http://doc.scrapy.org/en/latest/topics/autothrottle.html\n#AUTOTHROTTLE_ENABLED = True\n# The initial download delay\n#AUTOTHROTTLE_START_DELAY = 5\n# The maximum download delay to be set in case of high latencies\n#AUTOTHROTTLE_MAX_DELAY = 60",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#AUTOTHROTTLE_ENABLED",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#AUTOTHROTTLE_ENABLED = True\n# The initial download delay\n#AUTOTHROTTLE_START_DELAY = 5\n# The maximum download delay to be set in case of high latencies\n#AUTOTHROTTLE_MAX_DELAY = 60\n# The average number of requests Scrapy should be sending in parallel to\n# each remote server\n#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0\n# Enable showing throttling stats for every response received:\n#AUTOTHROTTLE_DEBUG = False",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#AUTOTHROTTLE_START_DELAY",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#AUTOTHROTTLE_START_DELAY = 5\n# The maximum download delay to be set in case of high latencies\n#AUTOTHROTTLE_MAX_DELAY = 60\n# The average number of requests Scrapy should be sending in parallel to\n# each remote server\n#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0\n# Enable showing throttling stats for every response received:\n#AUTOTHROTTLE_DEBUG = False\n# Enable and configure HTTP caching (disabled by default)\n# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#AUTOTHROTTLE_MAX_DELAY",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#AUTOTHROTTLE_MAX_DELAY = 60\n# The average number of requests Scrapy should be sending in parallel to\n# each remote server\n#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0\n# Enable showing throttling stats for every response received:\n#AUTOTHROTTLE_DEBUG = False\n# Enable and configure HTTP caching (disabled by default)\n# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings\n#HTTPCACHE_ENABLED = True\n#HTTPCACHE_EXPIRATION_SECS = 0",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#AUTOTHROTTLE_TARGET_CONCURRENCY",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0\n# Enable showing throttling stats for every response received:\n#AUTOTHROTTLE_DEBUG = False\n# Enable and configure HTTP caching (disabled by default)\n# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings\n#HTTPCACHE_ENABLED = True\n#HTTPCACHE_EXPIRATION_SECS = 0\n#HTTPCACHE_DIR = 'httpcache'\n#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#AUTOTHROTTLE_DEBUG",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#AUTOTHROTTLE_DEBUG = False\n# Enable and configure HTTP caching (disabled by default)\n# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings\n#HTTPCACHE_ENABLED = True\n#HTTPCACHE_EXPIRATION_SECS = 0\n#HTTPCACHE_DIR = 'httpcache'\n#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#HTTPCACHE_ENABLED",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#HTTPCACHE_ENABLED = True\n#HTTPCACHE_EXPIRATION_SECS = 0\n#HTTPCACHE_DIR = 'httpcache'\n#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#HTTPCACHE_EXPIRATION_SECS",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#HTTPCACHE_EXPIRATION_SECS = 0\n#HTTPCACHE_DIR = 'httpcache'\n#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#HTTPCACHE_DIR",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#HTTPCACHE_DIR = 'httpcache'\n#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#HTTPCACHE_IGNORE_HTTP_CODES",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#HTTPCACHE_STORAGE",
+        "kind": 5,
+        "importPath": "musica.musica.settings",
+        "description": "musica.musica.settings",
+        "peekOfCode": "#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "LyricSpider",
+        "kind": 6,
+        "importPath": "musica.spiders.getArtistUrl",
+        "description": "musica.spiders.getArtistUrl",
+        "peekOfCode": "class LyricSpider(scrapy.Spider):\n    name = 'GetArtistUrl'\n    start_urls = [\n                    'https://www.letras.com/estilos/reggaeton/artistas.html',\n                ]\n    def parse(self, response):\n        for artist in response.xpath(\"//ul[@class='cnt-list-thumb-l cnt-list--col3 ']\"):\n            yield{\n                'artist': artist.xpath(\".//li//a/@href\").extract(),\n            }",
+        "detail": "musica.spiders.getArtistUrl",
+        "documentation": {}
+    },
+    {
+        "label": "LyricSpider",
+        "kind": 6,
+        "importPath": "musica.spiders.getSongLyrics",
+        "description": "musica.spiders.getSongLyrics",
+        "peekOfCode": "class LyricSpider(scrapy.Spider):\n    name = 'GetSongLyrics'\n    start_urls = lista_canciones\n    def parse(self, response):\n        for letra in response.css(\"div.cnt-letra\"):\n            yield{\n                'lyrics': letra.css(\"p::text\").extract(),\n            }",
+        "detail": "musica.spiders.getSongLyrics",
+        "documentation": {}
+    },
+    {
+        "label": "LyricSpider",
+        "kind": 6,
+        "importPath": "musica.spiders.getSongUrl",
+        "description": "musica.spiders.getSongUrl",
+        "peekOfCode": "class LyricSpider(scrapy.Spider):\n    name = 'GetSongUrl'\n    start_urls = lista_artistas\n    def parse(self, response):\n        for song in response.xpath(\"//ul[@class='cnt-list']\"):\n            yield{\n                'urls': song.xpath(\".//li//a//@href\").extract(),\n            }",
+        "detail": "musica.spiders.getSongUrl",
+        "documentation": {}
+    },
+    {
+        "label": "MusicaItem",
+        "kind": 6,
+        "importPath": "musica.items",
+        "description": "musica.items",
+        "peekOfCode": "class MusicaItem(scrapy.Item):\n    # define the fields for your item here like:\n    # name = scrapy.Field()\n    pass",
+        "detail": "musica.items",
+        "documentation": {}
+    },
+    {
+        "label": "MusicaSpiderMiddleware",
+        "kind": 6,
+        "importPath": "musica.middlewares",
+        "description": "musica.middlewares",
+        "peekOfCode": "class MusicaSpiderMiddleware(object):\n    # Not all methods need to be defined. If a method is not defined,\n    # scrapy acts as if the spider middleware does not modify the\n    # passed objects.\n    @classmethod\n    def from_crawler(cls, crawler):\n        # This method is used by Scrapy to create your spiders.\n        s = cls()\n        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)\n        return s",
+        "detail": "musica.middlewares",
+        "documentation": {}
+    },
+    {
+        "label": "MusicaPipeline",
+        "kind": 6,
+        "importPath": "musica.pipelines",
+        "description": "musica.pipelines",
+        "peekOfCode": "class MusicaPipeline(object):\n    def process_item(self, item, spider):\n        return item",
+        "detail": "musica.pipelines",
+        "documentation": {}
+    },
+    {
+        "label": "BOT_NAME",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "BOT_NAME = 'musica'\nSPIDER_MODULES = ['musica.spiders']\nNEWSPIDER_MODULE = 'musica.spiders'\n# Crawl responsibly by identifying yourself (and your website) on the user-agent\n#USER_AGENT = 'musica (+http://www.yourdomain.com)'\n# Obey robots.txt rules\nROBOTSTXT_OBEY = True\n# Configure maximum concurrent requests performed by Scrapy (default: 16)\n#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "SPIDER_MODULES",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "SPIDER_MODULES = ['musica.spiders']\nNEWSPIDER_MODULE = 'musica.spiders'\n# Crawl responsibly by identifying yourself (and your website) on the user-agent\n#USER_AGENT = 'musica (+http://www.yourdomain.com)'\n# Obey robots.txt rules\nROBOTSTXT_OBEY = True\n# Configure maximum concurrent requests performed by Scrapy (default: 16)\n#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)\n# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "NEWSPIDER_MODULE",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "NEWSPIDER_MODULE = 'musica.spiders'\n# Crawl responsibly by identifying yourself (and your website) on the user-agent\n#USER_AGENT = 'musica (+http://www.yourdomain.com)'\n# Obey robots.txt rules\nROBOTSTXT_OBEY = True\n# Configure maximum concurrent requests performed by Scrapy (default: 16)\n#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)\n# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay\n# See also autothrottle settings and docs",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#USER_AGENT",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#USER_AGENT = 'musica (+http://www.yourdomain.com)'\n# Obey robots.txt rules\nROBOTSTXT_OBEY = True\n# Configure maximum concurrent requests performed by Scrapy (default: 16)\n#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)\n# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay\n# See also autothrottle settings and docs\n#DOWNLOAD_DELAY = 3\n# The download delay setting will honor only one of:",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "ROBOTSTXT_OBEY",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "ROBOTSTXT_OBEY = True\n# Configure maximum concurrent requests performed by Scrapy (default: 16)\n#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)\n# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay\n# See also autothrottle settings and docs\n#DOWNLOAD_DELAY = 3\n# The download delay setting will honor only one of:\n#CONCURRENT_REQUESTS_PER_DOMAIN = 16\n#CONCURRENT_REQUESTS_PER_IP = 16",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#CONCURRENT_REQUESTS",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#CONCURRENT_REQUESTS = 32\n# Configure a delay for requests for the same website (default: 0)\n# See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay\n# See also autothrottle settings and docs\n#DOWNLOAD_DELAY = 3\n# The download delay setting will honor only one of:\n#CONCURRENT_REQUESTS_PER_DOMAIN = 16\n#CONCURRENT_REQUESTS_PER_IP = 16\n# Disable cookies (enabled by default)\n#COOKIES_ENABLED = False",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#DOWNLOAD_DELAY",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#DOWNLOAD_DELAY = 3\n# The download delay setting will honor only one of:\n#CONCURRENT_REQUESTS_PER_DOMAIN = 16\n#CONCURRENT_REQUESTS_PER_IP = 16\n# Disable cookies (enabled by default)\n#COOKIES_ENABLED = False\n# Disable Telnet Console (enabled by default)\n#TELNETCONSOLE_ENABLED = False\n# Override the default request headers:\n#DEFAULT_REQUEST_HEADERS = {",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#CONCURRENT_REQUESTS_PER_DOMAIN",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#CONCURRENT_REQUESTS_PER_DOMAIN = 16\n#CONCURRENT_REQUESTS_PER_IP = 16\n# Disable cookies (enabled by default)\n#COOKIES_ENABLED = False\n# Disable Telnet Console (enabled by default)\n#TELNETCONSOLE_ENABLED = False\n# Override the default request headers:\n#DEFAULT_REQUEST_HEADERS = {\n#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',\n#   'Accept-Language': 'en',",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#CONCURRENT_REQUESTS_PER_IP",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#CONCURRENT_REQUESTS_PER_IP = 16\n# Disable cookies (enabled by default)\n#COOKIES_ENABLED = False\n# Disable Telnet Console (enabled by default)\n#TELNETCONSOLE_ENABLED = False\n# Override the default request headers:\n#DEFAULT_REQUEST_HEADERS = {\n#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',\n#   'Accept-Language': 'en',\n#}",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#COOKIES_ENABLED",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#COOKIES_ENABLED = False\n# Disable Telnet Console (enabled by default)\n#TELNETCONSOLE_ENABLED = False\n# Override the default request headers:\n#DEFAULT_REQUEST_HEADERS = {\n#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',\n#   'Accept-Language': 'en',\n#}\n# Enable or disable spider middlewares\n# See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#TELNETCONSOLE_ENABLED",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#TELNETCONSOLE_ENABLED = False\n# Override the default request headers:\n#DEFAULT_REQUEST_HEADERS = {\n#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',\n#   'Accept-Language': 'en',\n#}\n# Enable or disable spider middlewares\n# See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html\n#SPIDER_MIDDLEWARES = {\n#    'musica.middlewares.MusicaSpiderMiddleware': 543,",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#DEFAULT_REQUEST_HEADERS",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#DEFAULT_REQUEST_HEADERS = {\n#   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',\n#   'Accept-Language': 'en',\n#}\n# Enable or disable spider middlewares\n# See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html\n#SPIDER_MIDDLEWARES = {\n#    'musica.middlewares.MusicaSpiderMiddleware': 543,\n#}\n# Enable or disable downloader middlewares",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#SPIDER_MIDDLEWARES",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#SPIDER_MIDDLEWARES = {\n#    'musica.middlewares.MusicaSpiderMiddleware': 543,\n#}\n# Enable or disable downloader middlewares\n# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html\n#DOWNLOADER_MIDDLEWARES = {\n#    'musica.middlewares.MyCustomDownloaderMiddleware': 543,\n#}\n# Enable or disable extensions\n# See http://scrapy.readthedocs.org/en/latest/topics/extensions.html",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#DOWNLOADER_MIDDLEWARES",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#DOWNLOADER_MIDDLEWARES = {\n#    'musica.middlewares.MyCustomDownloaderMiddleware': 543,\n#}\n# Enable or disable extensions\n# See http://scrapy.readthedocs.org/en/latest/topics/extensions.html\n#EXTENSIONS = {\n#    'scrapy.extensions.telnet.TelnetConsole': None,\n#}\n# Configure item pipelines\n# See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#EXTENSIONS",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#EXTENSIONS = {\n#    'scrapy.extensions.telnet.TelnetConsole': None,\n#}\n# Configure item pipelines\n# See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html\n#ITEM_PIPELINES = {\n#    'musica.pipelines.MusicaPipeline': 300,\n#}\n# Enable and configure the AutoThrottle extension (disabled by default)\n# See http://doc.scrapy.org/en/latest/topics/autothrottle.html",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#ITEM_PIPELINES",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#ITEM_PIPELINES = {\n#    'musica.pipelines.MusicaPipeline': 300,\n#}\n# Enable and configure the AutoThrottle extension (disabled by default)\n# See http://doc.scrapy.org/en/latest/topics/autothrottle.html\n#AUTOTHROTTLE_ENABLED = True\n# The initial download delay\n#AUTOTHROTTLE_START_DELAY = 5\n# The maximum download delay to be set in case of high latencies\n#AUTOTHROTTLE_MAX_DELAY = 60",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#AUTOTHROTTLE_ENABLED",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#AUTOTHROTTLE_ENABLED = True\n# The initial download delay\n#AUTOTHROTTLE_START_DELAY = 5\n# The maximum download delay to be set in case of high latencies\n#AUTOTHROTTLE_MAX_DELAY = 60\n# The average number of requests Scrapy should be sending in parallel to\n# each remote server\n#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0\n# Enable showing throttling stats for every response received:\n#AUTOTHROTTLE_DEBUG = False",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#AUTOTHROTTLE_START_DELAY",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#AUTOTHROTTLE_START_DELAY = 5\n# The maximum download delay to be set in case of high latencies\n#AUTOTHROTTLE_MAX_DELAY = 60\n# The average number of requests Scrapy should be sending in parallel to\n# each remote server\n#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0\n# Enable showing throttling stats for every response received:\n#AUTOTHROTTLE_DEBUG = False\n# Enable and configure HTTP caching (disabled by default)\n# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#AUTOTHROTTLE_MAX_DELAY",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#AUTOTHROTTLE_MAX_DELAY = 60\n# The average number of requests Scrapy should be sending in parallel to\n# each remote server\n#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0\n# Enable showing throttling stats for every response received:\n#AUTOTHROTTLE_DEBUG = False\n# Enable and configure HTTP caching (disabled by default)\n# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings\n#HTTPCACHE_ENABLED = True\n#HTTPCACHE_EXPIRATION_SECS = 0",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#AUTOTHROTTLE_TARGET_CONCURRENCY",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0\n# Enable showing throttling stats for every response received:\n#AUTOTHROTTLE_DEBUG = False\n# Enable and configure HTTP caching (disabled by default)\n# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings\n#HTTPCACHE_ENABLED = True\n#HTTPCACHE_EXPIRATION_SECS = 0\n#HTTPCACHE_DIR = 'httpcache'\n#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#AUTOTHROTTLE_DEBUG",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#AUTOTHROTTLE_DEBUG = False\n# Enable and configure HTTP caching (disabled by default)\n# See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings\n#HTTPCACHE_ENABLED = True\n#HTTPCACHE_EXPIRATION_SECS = 0\n#HTTPCACHE_DIR = 'httpcache'\n#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#HTTPCACHE_ENABLED",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#HTTPCACHE_ENABLED = True\n#HTTPCACHE_EXPIRATION_SECS = 0\n#HTTPCACHE_DIR = 'httpcache'\n#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#HTTPCACHE_EXPIRATION_SECS",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#HTTPCACHE_EXPIRATION_SECS = 0\n#HTTPCACHE_DIR = 'httpcache'\n#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#HTTPCACHE_DIR",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#HTTPCACHE_DIR = 'httpcache'\n#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#HTTPCACHE_IGNORE_HTTP_CODES",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#HTTPCACHE_IGNORE_HTTP_CODES = []\n#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "#HTTPCACHE_STORAGE",
+        "kind": 5,
+        "importPath": "musica.settings",
+        "description": "musica.settings",
+        "peekOfCode": "#HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'",
+        "detail": "musica.settings",
+        "documentation": {}
+    },
+    {
+        "label": "FirstSpider",
+        "kind": 6,
+        "importPath": "FirstSpider",
+        "description": "FirstSpider",
+        "peekOfCode": "class FirstSpider(scrapy.Spider):\n    name = \"cl_pets\"\n    start_urls = ['https://newyork.craigslist.org/search/pet',]\n    def parse(self, response):\n        for title in response.xpath(\"//li[@class='result-row']//p\"):\n            yield {\n                'tittle': LittleEndianStructure.xpath(\"a/text()\").extract_first()\n            }",
+        "detail": "FirstSpider",
+        "documentation": {}
+    },
+    {
+        "label": "QuotesSpider",
+        "kind": 6,
+        "importPath": "QuotesSpider",
+        "description": "QuotesSpider",
+        "peekOfCode": "class QuotesSpider(scrapy.Spider):\n    name = \"quotes\"\n    start_urls = ['http://quotes.toscrape.com/tag/humor/',]\n    def parse(self, response):\n        for quote in response.css('div.quote'):\n            yield {\n                'text': quote.css('span.text::text').extract_first(),\n                'author': quote.xpath('span/small/text()').extract_first(),\n            }\n        next_page = response.css('li.next a::attr(\"href\")').extract_first()",
+        "detail": "QuotesSpider",
+        "documentation": {}
+    }
+]

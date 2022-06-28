@@ -1,3 +1,4 @@
+from ctypes import LittleEndianStructure
 import scrapy
 
 class FirstSpider(scrapy.Spider):
@@ -7,7 +8,7 @@ class FirstSpider(scrapy.Spider):
     def parse(self, response):
         for title in response.xpath("//li[@class='result-row']//p"):
             yield {
-                'tittle': tittle.xpath("a/text()").extract_first()
+                'tittle': LittleEndianStructure.xpath("a/text()").extract_first()
             }
 
 
